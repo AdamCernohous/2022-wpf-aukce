@@ -11,7 +11,6 @@ namespace Aukce.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        //public DbSet<Book>? Books { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Auction> Auctions { get; set; }
         public ApplicationDbContext() : base()
@@ -25,10 +24,13 @@ namespace Aukce.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder.Entity<Book>()
-            //    .HasIndex(u => u.BookId)
-            //    .IsUnique();
-            //builder.Entity<Book>().HasData(new Book { BookId = 1, Title = "Společenstvo prstenu", Pages = 300 });
+            base.OnModelCreating(builder);
+
+            builder.Entity<User>().HasMany(u => u.Auctions);
+            builder.Entity<Auction>().HasOne(a => a.Author);
+
+            builder.Entity<User>().HasData(new User { Id = 1, Username = "adamcernohous", Email = "adacern019@pslib.cz", Password = "1234" });
+            builder.Entity<Auction>().HasData(new Auction { Id = 1, AuthorId = 1, Title = "Mona Lisa", Description = "Drahý obraz!", Price = 69, LastBuyerId = 1 });
         }
     }
 }

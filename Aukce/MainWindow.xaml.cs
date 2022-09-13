@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Aukce.Data;
+using Aukce.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,14 @@ namespace Aukce
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel vm;
+        internal MainWindow(ApplicationDbContext db)
+        {
+            InitializeComponent();
+            vm = (MainViewModel)DataContext;
+            vm.Db = db;
+            vm.ReloadCommand.Execute(null);
+        }
         public MainWindow()
         {
             InitializeComponent();
