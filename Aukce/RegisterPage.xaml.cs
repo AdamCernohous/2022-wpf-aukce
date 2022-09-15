@@ -30,6 +30,7 @@ namespace Aukce
             vm.Db = db;
             vm.ReloadCommand.Execute(null);
         }
+
         public RegisterPage()
         {
             InitializeComponent();
@@ -37,7 +38,10 @@ namespace Aukce
 
         private void Btn_Back(object sender, RoutedEventArgs e)
         {
-            Main.Content = vm;
+            MainWindow newWindow = new MainWindow();
+            newWindow.Show();
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.Close();
         }
     }
 }

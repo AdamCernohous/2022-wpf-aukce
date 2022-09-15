@@ -15,7 +15,7 @@ namespace Aukce.ViewModels
     {
         public ApplicationDbContext Db { get; set; }
         public RelayCommand ReloadCommand { get; set; }
-        public RelayCommand RegisterCommmand { get; set; }
+        public RelayCommand RegisterCommand { get; set; }
         public RelayCommand LoginCommand { get; set; }
 
         private ObservableCollection<Auction> _auctions;
@@ -40,16 +40,19 @@ namespace Aukce.ViewModels
                     }
                 }
                 );
-            RegisterCommmand = new RelayCommand(
+            RegisterCommand = new RelayCommand(
                 () =>
                 {
                     if (Db != null)
                     {
-                        if(RegisterUser != null)
+                        var newUser = new User
                         {
-                            Db.Users.Add(RegisterUser);
-                            Db.SaveChangesAsync();
-                        }
+                            Username = RegisterUser.Username,
+                            Email = RegisterUser.Email,
+                            Password = RegisterUser.Password
+                        };
+                        Db.Users.Add(RegisterUser);
+                        Db.SaveChanges();
                     }
                 }
                 );

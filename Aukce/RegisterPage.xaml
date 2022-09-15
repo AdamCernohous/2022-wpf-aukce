@@ -22,7 +22,7 @@
             <TextBox Text="{Binding RegisterUser.Email}"/>
             <Label Opacity=".6">Password</Label>
             <TextBox Text="{Binding RegisterUser.Password}"/>
-            <Button Command="{Binding RegisterCommmand}">Register</Button>
+            <Button Command="{Binding RegisterCommand}">Register</Button>
         </StackPanel>
     </Grid>
 </Page>
