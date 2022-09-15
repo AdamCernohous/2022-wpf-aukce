@@ -16,10 +16,12 @@ namespace Aukce.ViewModels
         public ApplicationDbContext Db { get; set; }
         public RelayCommand ReloadCommand { get; set; }
         public RelayCommand RegisterCommmand { get; set; }
+        public RelayCommand LoginCommand { get; set; }
 
         private ObservableCollection<Auction> _auctions;
         private Auction _selectedAuction;
         private User _registerUser;
+        private User _loginUser;
 
         public MainViewModel()
         {
@@ -51,23 +53,35 @@ namespace Aukce.ViewModels
                     }
                 }
                 );
+            LoginCommand = new RelayCommand(
+                () =>
+                {
+                    if(Db != null)
+                    {
+
+                    }
+                }
+                );
         }
         public ObservableCollection<Auction> Auctions
         {
             get { return _auctions; }
             set { _auctions = value; NotifyPropertyChanged(); }
         }
-
         public Auction SelectedAuction
         {
             get { return _selectedAuction; }
             set { _selectedAuction = value; NotifyPropertyChanged(); }
         }
-
         public User RegisterUser
         {
             get { return _registerUser; }
             set { _registerUser = value; NotifyPropertyChanged(); }
+        }
+        public User LoginUser
+        {
+            get { return _loginUser; }
+            set { _loginUser = value; NotifyPropertyChanged(); }
         }
 
 
