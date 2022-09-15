@@ -15,9 +15,11 @@ namespace Aukce.ViewModels
     {
         public ApplicationDbContext Db { get; set; }
         public RelayCommand ReloadCommand { get; set; }
+        public RelayCommand RegisterCommmand { get; set; }
 
         private ObservableCollection<Auction> _auctions;
         private Auction _selectedAuction;
+        private User _registerUser;
 
         public MainViewModel()
         {
@@ -36,6 +38,19 @@ namespace Aukce.ViewModels
                     }
                 }
                 );
+            RegisterCommmand = new RelayCommand(
+                () =>
+                {
+                    if (Db != null)
+                    {
+                        if(RegisterUser != null)
+                        {
+                            Db.Users.Add(RegisterUser);
+                            Db.SaveChangesAsync();
+                        }
+                    }
+                }
+                );
         }
         public ObservableCollection<Auction> Auctions
         {
@@ -48,6 +63,14 @@ namespace Aukce.ViewModels
             get { return _selectedAuction; }
             set { _selectedAuction = value; NotifyPropertyChanged(); }
         }
+
+        public User RegisterUser
+        {
+            get { return _registerUser; }
+            set { _registerUser = value; NotifyPropertyChanged(); }
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

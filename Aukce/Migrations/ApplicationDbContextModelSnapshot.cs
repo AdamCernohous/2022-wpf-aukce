@@ -43,7 +43,7 @@ namespace Aukce.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Auctions");
+                    b.ToTable("Auctions", (string)null);
 
                     b.HasData(
                         new
@@ -77,7 +77,7 @@ namespace Aukce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new

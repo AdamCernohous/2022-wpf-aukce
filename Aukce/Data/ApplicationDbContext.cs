@@ -15,8 +15,8 @@ namespace Aukce.Data
         public DbSet<Auction> Auctions { get; set; }
         public ApplicationDbContext() : base()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -29,8 +29,8 @@ namespace Aukce.Data
             builder.Entity<User>().HasMany(u => u.Auctions);
             builder.Entity<Auction>().HasOne(a => a.Author);
 
-            builder.Entity<User>().HasData(new User { Id = 1, Username = "adamcernohous", Email = "adacern019@pslib.cz", Password = "1234" });
-            builder.Entity<Auction>().HasData(new Auction { Id = 1, AuthorId = 1, Title = "Mona Lisa", Description = "Drahý obraz!", Price = 69, LastBuyerId = 1 });
+            builder.Entity<User>().HasData(new User { Id = new Guid("d43511aa-84b0-4514-9c5f-ec439113c381"), Username = "adamcernohous", Email = "adacern019@pslib.cz", Password = "1234" });
+            builder.Entity<Auction>().HasData(new Auction { Id = new Guid("31023dc9-4947-43cf-a2c9-4379fc8cbca5"), AuthorId = new Guid("d43511aa-84b0-4514-9c5f-ec439113c381"), Title = "Mona Lisa", Description = "Drahý obraz!", Price = 69, LastBuyerId = new Guid("d43511aa-84b0-4514-9c5f-ec439113c381") });
         }
     }
 }
