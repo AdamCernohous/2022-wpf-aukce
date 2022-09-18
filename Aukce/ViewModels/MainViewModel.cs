@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Aukce.ViewModels
 {
@@ -25,6 +27,8 @@ namespace Aukce.ViewModels
 
         public MainViewModel()
         {
+            RegisterUser = new User();
+
             ReloadCommand = new RelayCommand(
                 () =>
                 {
@@ -43,17 +47,18 @@ namespace Aukce.ViewModels
             RegisterCommand = new RelayCommand(
                 () =>
                 {
-                    if (Db != null)
+                    var newUser = new User
                     {
-                        var newUser = new User
-                        {
-                            Username = RegisterUser.Username,
-                            Email = RegisterUser.Email,
-                            Password = RegisterUser.Password
-                        };
-                        Db.Users.Add(RegisterUser);
-                        Db.SaveChanges();
-                    }
+                        //Id = new Guid("00000000-0000-0000-0000-000000000000"),
+                        Username = RegisterUser.Username,
+                        Email = RegisterUser.Email,
+                        Password = RegisterUser.Password
+                    };
+
+                    Trace.WriteLine(newUser);
+
+                    Db.Users.Add(newUser);
+                    Db.SaveChangesAsync();
                 }
                 );
             LoginCommand = new RelayCommand(

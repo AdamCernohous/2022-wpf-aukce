@@ -26,7 +26,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Background="White">
-                    <Button Content="Login" Click="Btn_Login" />
+                    <Button Content="Login" Click="Btn_Login"/>
                     <Button Content="Register" Click="Btn_Register" />
                 </StackPanel>
             </Grid>

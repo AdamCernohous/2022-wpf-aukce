@@ -31,14 +31,9 @@ namespace Aukce
             vm.ReloadCommand.Execute(null);
         }
 
-        public RegisterPage()
-        {
-            InitializeComponent();
-        }
-
         private void Btn_Back(object sender, RoutedEventArgs e)
         {
-            MainWindow newWindow = new MainWindow();
+            MainWindow newWindow = new MainWindow(vm.Db);
             newWindow.Show();
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.Close();
