@@ -47,18 +47,11 @@ namespace Aukce.ViewModels
             RegisterCommand = new RelayCommand(
                 () =>
                 {
-                    var newUser = new User
+                    if(Db != null)
                     {
-                        //Id = new Guid("00000000-0000-0000-0000-000000000000"),
-                        Username = RegisterUser.Username,
-                        Email = RegisterUser.Email,
-                        Password = RegisterUser.Password
-                    };
-
-                    Trace.WriteLine(newUser);
-
-                    Db.Users.Add(newUser);
-                    Db.SaveChangesAsync();
+                        Db.Users.Add(new User { Username = RegisterUser.Username, Email = RegisterUser.Email, Password = RegisterUser.Password });
+                        Db.SaveChanges();
+                    }
                 }
                 );
             LoginCommand = new RelayCommand(

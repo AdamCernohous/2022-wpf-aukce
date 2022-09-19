@@ -19,7 +19,6 @@ namespace Aukce
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow wnd = new MainWindow(Db);
-            RegisterPage register = new RegisterPage(Db);
             wnd.Show();
         }
     }

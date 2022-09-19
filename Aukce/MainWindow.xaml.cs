@@ -33,12 +33,13 @@ namespace Aukce
 
         private void Btn_Login(object sender, RoutedEventArgs e)
         {
-            Main.Content = new LoginPage();
+            
         }
 
         private void Btn_Register(object sender, RoutedEventArgs e)
         {
-            Main.Content = new RegisterPage(vm.Db);
+            RegisterWindow register = new RegisterWindow(vm.Db);
+            register.ShowDialog();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Aukce.Data;
+using Aukce.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +12,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Aukce
 {
     /// <summary>
-    /// Interaction logic for LoginPage.xaml
+    /// Interakční logika pro RegisterWindow.xaml
     /// </summary>
-    public partial class LoginPage : Page
+    public partial class RegisterWindow : Window
     {
-        public LoginPage()
+        private MainViewModel vm;
+        internal RegisterWindow(ApplicationDbContext db)
         {
             InitializeComponent();
+            vm = (MainViewModel)DataContext;
+            vm.Db = db;
+            vm.ReloadCommand.Execute(null);
         }
     }
 }
