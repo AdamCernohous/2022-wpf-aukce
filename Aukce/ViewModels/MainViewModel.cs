@@ -28,6 +28,7 @@ namespace Aukce.ViewModels
         public MainViewModel()
         {
             RegisterUser = new User();
+            LoginUser = new User();
 
             ReloadCommand = new RelayCommand(
                 () =>
@@ -59,7 +60,15 @@ namespace Aukce.ViewModels
                 {
                     if(Db != null)
                     {
+                        var loginUser = Db.Users.Where(u => u.Email == LoginUser.Email).FirstOrDefault();
 
+                        if(loginUser != null)
+                        {
+                            if(loginUser.Password == LoginUser.Password)
+                            {
+
+                            }
+                        }
                     }
                 }
                 );
