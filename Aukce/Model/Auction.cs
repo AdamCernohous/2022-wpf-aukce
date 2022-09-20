@@ -17,6 +17,8 @@ namespace Aukce.Model
         public string Description { get; set; }
         [Required]
         public int Price { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
         public Guid LastBuyerId { get; set; }
         public Guid AuthorId { get; set; }
         [ForeignKey("AuthorId")]

@@ -1,0 +1,27 @@
+﻿<Window x:Class="Aukce.AddAuction"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aukce"
+        xmlns:vm="clr-namespace:Aukce.ViewModels"
+        mc:Ignorable="d"
+        Title="AddAuction" Height="450" Width="400">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <StackPanel Width="300" VerticalAlignment="Center">
+            <TextBlock Text="Add New Auction" FontSize="30" HorizontalAlignment="Center" Margin="0 0 0 50" />
+            <Label Opacity=".6">Title</Label>
+            <TextBox Text="{Binding NewAuction.Title}"/>
+            <Label Opacity=".6">Description</Label>
+            <TextBox Text="{Binding NewAuction.Description}"/>
+            <Label Opacity=".6">End Date</Label>
+            <DatePicker SelectedDate="{Binding NewAuction.EndDate}"/>
+            <Label Opacity=".6">Price</Label>
+            <TextBox Text="{Binding NewAuction.Price}" Margin="0 0 0 20"/>
+            <Button Command="{Binding AddAuction}">Add</Button>
+        </StackPanel>
+    </Grid>
+</Window>

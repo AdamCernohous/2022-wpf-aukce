@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aukce.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220909162653_UserId")]
-    partial class UserId
+    [Migration("20220920203043_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,19 +21,22 @@ namespace Aukce.Migrations
 
             modelBuilder.Entity("Aukce.Model.Auction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("LastBuyerId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("LastBuyerId")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
@@ -42,36 +45,18 @@ namespace Aukce.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("LastBuyerId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("Auctions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AuthorId = 1,
-                            Description = "Drahý obraz!",
-                            LastBuyerId = 1,
-                            Price = 69,
-                            Title = "Mona Lisa"
-                        });
                 });
 
             modelBuilder.Entity("Aukce.Model.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -88,38 +73,17 @@ namespace Aukce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "adacern019@pslib.cz",
-                            Password = "1234",
-                            Username = "adamcernohous"
-                        });
                 });
 
             modelBuilder.Entity("Aukce.Model.Auction", b =>
                 {
                     b.HasOne("Aukce.Model.User", "Author")
-                        .WithMany()
+                        .WithMany("Auctions")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aukce.Model.User", "LastBuyer")
-                        .WithMany()
-                        .HasForeignKey("LastBuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Aukce.Model.User", null)
-                        .WithMany("Auctions")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Author");
-
-                    b.Navigation("LastBuyer");
                 });
 
             modelBuilder.Entity("Aukce.Model.User", b =>

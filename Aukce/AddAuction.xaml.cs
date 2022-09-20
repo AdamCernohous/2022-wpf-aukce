@@ -12,35 +12,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Aukce
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interakční logika pro AddAuction.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddAuction : Window
     {
         private MainViewModel vm;
-        internal MainWindow(ApplicationDbContext db)
+        internal AddAuction(ApplicationDbContext db)
         {
             InitializeComponent();
             vm = (MainViewModel)DataContext;
             vm.Db = db;
             vm.ReloadCommand.Execute(null);
-        }
-
-        private void Btn_Login(object sender, RoutedEventArgs e)
-        {
-            LoginWindow login = new LoginWindow(vm.Db);
-            login.ShowDialog();
-        }
-
-        private void Btn_Register(object sender, RoutedEventArgs e)
-        {
-            RegisterWindow register = new RegisterWindow(vm.Db);
-            register.ShowDialog();
         }
     }
 }

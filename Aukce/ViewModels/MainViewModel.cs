@@ -19,16 +19,20 @@ namespace Aukce.ViewModels
         public RelayCommand ReloadCommand { get; set; }
         public RelayCommand RegisterCommand { get; set; }
         public RelayCommand LoginCommand { get; set; }
+        public RelayCommand AddAuction { get; set; }
 
         private ObservableCollection<Auction> _auctions;
         private Auction _selectedAuction;
         private User _registerUser;
         private User _loginUser;
+        private User _loggedUser;
+        private Auction _newAuction;
 
         public MainViewModel()
         {
             RegisterUser = new User();
             LoginUser = new User();
+            NewAuction = new Auction();
 
             ReloadCommand = new RelayCommand(
                 () =>
@@ -66,9 +70,62 @@ namespace Aukce.ViewModels
                         {
                             if(loginUser.Password == LoginUser.Password)
                             {
+                                LoggedUser = new User
+                                {
+                                    Id = loginUser.Id,
+                                    Username = loginUser.Username,
+                                    Email = loginUser.Email,
+                                    Password = loginUser.Password
+                                };
 
+                                AuctionWindow auctionWindow = new AuctionWindow(Db);
+                                auctionWindow.Tag = "auctionWindow";
+                                auctionWindow.Show();
+
+                                foreach (Window window in Application.Current.Windows)
+                                {
+                                    if (window.Tag != null)
+                                    {
+                                        if (window.Tag.ToString() != "auctionWindow")
+                                        {
+                                            window.Close();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        window.Close();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Nesprávný email nebo heslo!");
                             }
                         }
+                        else
+                        {
+                            MessageBox.Show("Uživatel neexistuje!");
+                        }
+                    }
+                }
+                );
+            AddAuction = new RelayCommand(
+                () =>
+                {
+                    if (Db != null)
+                    {
+                        Auction newAuction = new Auction
+                        {
+                            Title = NewAuction.Title,
+                            Description = NewAuction.Description,
+                            Price = NewAuction.Price,
+                            EndDate = NewAuction.EndDate,
+                            AuthorId = LoggedUser.Id,
+                            Author = LoggedUser
+                        };
+
+                        Db.Auctions.Add(newAuction);
+                        Db.SaveChanges();
                     }
                 }
                 );
@@ -92,6 +149,16 @@ namespace Aukce.ViewModels
         {
             get { return _loginUser; }
             set { _loginUser = value; NotifyPropertyChanged(); }
+        }
+        public User LoggedUser
+        {
+            get { return _loggedUser; }
+            set { _loggedUser = value; NotifyPropertyChanged(); }
+        }
+        public Auction NewAuction
+        {
+            get { return _newAuction; }
+            set { _newAuction = value; NotifyPropertyChanged(); }
         }
 
 
