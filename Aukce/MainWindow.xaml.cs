@@ -51,5 +51,12 @@ namespace Aukce
             addAuction.DataContext = vm;
             addAuction.ShowDialog();
         }
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+            DeleteAuction deleteAuction = new DeleteAuction();
+            deleteAuction.DataContext = vm;
+            deleteAuction.ShowDialog();
+        }
     }
 }

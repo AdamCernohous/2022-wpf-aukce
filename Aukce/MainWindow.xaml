@@ -15,9 +15,10 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Menu">
                     <MenuItem Header="_Reload" Command="{Binding ReloadCommand}"/>
-                    <MenuItem Header="_New Auction" Click="AddAuction" />
                     <MenuItem Header="_Login" Click="Btn_Login" />
                     <MenuItem Header="_Register" Click="Btn_Register" />
+                    <MenuItem Header="_New Auction" Click="AddAuction" />
+                    <MenuItem Header="_Delete" Click="Delete" />
                 </MenuItem>
             </Menu>
             <Grid>

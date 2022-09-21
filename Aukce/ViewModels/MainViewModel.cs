@@ -23,8 +23,10 @@ namespace Aukce.ViewModels
         public RelayCommand LoginCommand { get; set; }
         public RelayCommand AddAuction { get; set; }
         public RelayCommand BidCommand { get; set; }
+        public RelayCommand DeleteCommand { get; set; }
 
         private ObservableCollection<Auction> _auctions;
+        private ObservableCollection<Auction> _myAuctions;
         private Auction _selectedAuction;
         private User _registerUser;
         private User _loginUser;
@@ -44,6 +46,7 @@ namespace Aukce.ViewModels
                     if (Db != null && LoggedUser != null)
                     {
                         Auctions = new ObservableCollection<Auction>(Db.Auctions.AsNoTracking().ToList());
+                        MyAuctions = new ObservableCollection<Auction>(Db.Auctions.Where(a => a.AuthorId == LoggedUser.Id).ToList());
 
                         foreach (var a in Auctions)
                         {
@@ -68,8 +71,17 @@ namespace Aukce.ViewModels
                 {
                     if(Db != null)
                     {
-                        Db.Users.Add(new User { Username = RegisterUser.Username, Email = RegisterUser.Email, Password = RegisterUser.Password });
-                        Db.SaveChanges();
+                        User? duplicateUser = Db.Users.Where(u => u.Email == RegisterUser.Email).FirstOrDefault();
+
+                        if(duplicateUser == null)
+                        {
+                            Db.Users.Add(new User { Username = RegisterUser.Username, Email = RegisterUser.Email, Password = RegisterUser.Password });
+                            Db.SaveChanges();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tento email je již zaregistrovaný!");
+                        }
                     }
                 }
                 );
@@ -84,8 +96,6 @@ namespace Aukce.ViewModels
                         {
                             if(LoggedUser.Password == LoginUser.Password)
                             {
-
-
                                 //LoggedUser = new User 
                                 //{
                                 //    Id = loginUser.Id,
@@ -147,7 +157,7 @@ namespace Aukce.ViewModels
             BidCommand = new RelayCommand(
                 () =>
                 {
-                    if (Db != null)
+                    if (Db != null && LoggedUser != null)
                     {
                         Auction a = Db.Auctions.Where(a => a.Id == SelectedAuction.Id).FirstOrDefault();
 
@@ -156,6 +166,24 @@ namespace Aukce.ViewModels
 
                         Db.SaveChanges();
                     }
+                    else
+                    {
+                        MessageBox.Show("Nemůžete přihazovat! Nejprve se prosím přihlašte!");
+                    }
+                }
+                );
+            DeleteCommand = new RelayCommand(
+                () =>
+                {
+                    if(Db != null && LoggedUser != null)
+                    {
+                        Db.Auctions.Remove(SelectedAuction);
+                        Db.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Před odstraňováním z databáze se prosím přihlaste!");
+                    }
                 }
                 );
         }
@@ -163,6 +191,11 @@ namespace Aukce.ViewModels
         {
             get { return _auctions; }
             set { _auctions = value; NotifyPropertyChanged(); }
+        }
+        public ObservableCollection<Auction> MyAuctions
+        {
+            get { return _myAuctions; }
+            set { _myAuctions = value; NotifyPropertyChanged(); }
         }
         public Auction SelectedAuction
         {
