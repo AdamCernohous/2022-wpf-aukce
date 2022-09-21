@@ -21,13 +21,14 @@ namespace Aukce
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private MainViewModel vm;
-        internal LoginWindow(ApplicationDbContext db)
+        internal LoginWindow()
         {
             InitializeComponent();
-            vm = (MainViewModel)DataContext;
-            vm.Db = db;
-            vm.ReloadCommand.Execute(null);
+        }
+
+        private void Login(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

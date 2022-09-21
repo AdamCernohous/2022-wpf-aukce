@@ -12,24 +12,50 @@
     </Window.DataContext>
     <Grid>
         <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Menu">
+                    <MenuItem Header="_Reload" Command="{Binding ReloadCommand}"/>
+                    <MenuItem Header="_New Auction" Click="AddAuction" />
+                    <MenuItem Header="_Login" Click="Btn_Login" />
+                    <MenuItem Header="_Register" Click="Btn_Register" />
+                </MenuItem>
+            </Menu>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid ItemsSource="{Binding Auctions}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                <DataGrid ItemsSource="{Binding Auctions}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectedItem="{Binding SelectedAuction}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
                         <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                         <DataGridTextColumn Header="Author" Binding="{Binding Author.Username}" />
                         <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                        <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Background="White">
-                    <Button Content="Login" Click="Btn_Login"/>
-                    <Button Content="Register" Click="Btn_Register" />
-                </StackPanel>
+                <ScrollViewer Grid.Column="1">
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <Label>Title</Label>
+                        <TextBox Text="{Binding SelectedAuction.Title}" IsReadOnly="True" />
+                        <Label>Description</Label>
+                        <TextBox Text="{Binding SelectedAuction.Description}" IsReadOnly="True"/>
+                        <Label>Author</Label>
+                        <TextBox Text="{Binding SelectedAuction.Author.Username}" IsReadOnly="True"/>
+                        <Label>Price</Label>
+                        <TextBox Text="{Binding SelectedAuction.Price}" IsReadOnly="True"/>
+                        <Label>End Date</Label>
+                        <TextBox Text="{Binding SelectedAuction.EndDate}" IsReadOnly="True"/>
+                        <Label>Last Buyer</Label>
+                        <TextBox Text="{Binding SelectedAuction.LastBuyerId}" IsReadOnly="True"/>
+
+                        <Label Margin="0 20 0 0">Bid</Label>
+                        <TextBox Text="{Binding Bid}" />
+                        <Button Command="{Binding BidCommand}">Bid</Button>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
         </DockPanel>
+        <Frame x:Name="MainFrame" Margin="0 0 0 0" />
     </Grid>
 </Window>

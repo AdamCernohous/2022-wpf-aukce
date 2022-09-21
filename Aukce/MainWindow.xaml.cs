@@ -33,14 +33,23 @@ namespace Aukce
 
         private void Btn_Login(object sender, RoutedEventArgs e)
         {
-            LoginWindow login = new LoginWindow(vm.Db);
+            LoginWindow login = new LoginWindow();
+            login.DataContext = vm;
             login.ShowDialog();
         }
 
         private void Btn_Register(object sender, RoutedEventArgs e)
         {
-            RegisterWindow register = new RegisterWindow(vm.Db);
+            RegisterWindow register = new RegisterWindow();
+            register.DataContext = vm;
             register.ShowDialog();
+        }
+
+        private void AddAuction(object sender, RoutedEventArgs e)
+        {
+            AddAuction addAuction = new AddAuction();
+            addAuction.DataContext = vm;
+            addAuction.ShowDialog();
         }
     }
 }

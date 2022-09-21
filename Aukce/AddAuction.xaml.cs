@@ -21,13 +21,9 @@ namespace Aukce
     /// </summary>
     public partial class AddAuction : Window
     {
-        private MainViewModel vm;
-        internal AddAuction(ApplicationDbContext db)
+        internal AddAuction()
         {
             InitializeComponent();
-            vm = (MainViewModel)DataContext;
-            vm.Db = db;
-            vm.ReloadCommand.Execute(null);
         }
     }
 }

@@ -21,13 +21,9 @@ namespace Aukce
     /// </summary>
     public partial class RegisterWindow : Window
     {
-        private MainViewModel vm;
-        internal RegisterWindow(ApplicationDbContext db)
+        internal RegisterWindow()
         {
             InitializeComponent();
-            vm = (MainViewModel)DataContext;
-            vm.Db = db;
-            vm.ReloadCommand.Execute(null);
         }
     }
 }

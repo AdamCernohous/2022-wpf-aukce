@@ -1,5 +1,7 @@
 ﻿using Aukce.Data;
 using Aukce.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +22,7 @@ namespace Aukce.ViewModels
         public RelayCommand RegisterCommand { get; set; }
         public RelayCommand LoginCommand { get; set; }
         public RelayCommand AddAuction { get; set; }
+        public RelayCommand BidCommand { get; set; }
 
         private ObservableCollection<Auction> _auctions;
         private Auction _selectedAuction;
@@ -27,6 +30,7 @@ namespace Aukce.ViewModels
         private User _loginUser;
         private User _loggedUser;
         private Auction _newAuction;
+        private int _bid;
 
         public MainViewModel()
         {
@@ -37,9 +41,19 @@ namespace Aukce.ViewModels
             ReloadCommand = new RelayCommand(
                 () =>
                 {
-                    if(Db != null)
+                    if (Db != null && LoggedUser != null)
                     {
-                        Auctions = new ObservableCollection<Auction>(Db.Auctions.ToList());
+                        Auctions = new ObservableCollection<Auction>(Db.Auctions.AsNoTracking().ToList());
+
+                        foreach (var a in Auctions)
+                        {
+                            var author = Db.Users.Where(u => u.Id == a.AuthorId).FirstOrDefault();
+                            a.Author = author;
+                        }
+                    }
+                    else if (Db != null)
+                    {
+                        Auctions = new ObservableCollection<Auction>(Db.Auctions.AsNoTracking().ToList());
 
                         foreach (var a in Auctions)
                         {
@@ -64,38 +78,40 @@ namespace Aukce.ViewModels
                 {
                     if(Db != null)
                     {
-                        var loginUser = Db.Users.Where(u => u.Email == LoginUser.Email).FirstOrDefault();
+                        LoggedUser = Db.Users.Where(u => u.Email == LoginUser.Email).FirstOrDefault();
 
-                        if(loginUser != null)
+                        if(LoggedUser != null)
                         {
-                            if(loginUser.Password == LoginUser.Password)
+                            if(LoggedUser.Password == LoginUser.Password)
                             {
-                                LoggedUser = new User
-                                {
-                                    Id = loginUser.Id,
-                                    Username = loginUser.Username,
-                                    Email = loginUser.Email,
-                                    Password = loginUser.Password
-                                };
 
-                                AuctionWindow auctionWindow = new AuctionWindow(Db);
-                                auctionWindow.Tag = "auctionWindow";
-                                auctionWindow.Show();
 
-                                foreach (Window window in Application.Current.Windows)
-                                {
-                                    if (window.Tag != null)
-                                    {
-                                        if (window.Tag.ToString() != "auctionWindow")
-                                        {
-                                            window.Close();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        window.Close();
-                                    }
-                                }
+                                //LoggedUser = new User 
+                                //{
+                                //    Id = loginUser.Id,
+                                //    Username = loginUser.Username,
+                                //    Email = loginUser.Email,
+                                //    Password = loginUser.Password
+                                //};
+
+                                //AuctionWindow auctionWindow = new AuctionWindow(Db);
+                                //auctionWindow.Tag = "auctionWindow";
+                                //auctionWindow.Show();
+
+                                //foreach (Window window in Application.Current.Windows)
+                                //{
+                                //    if (window.Tag != null)
+                                //    {
+                                //        if (window.Tag.ToString() != "auctionWindow")
+                                //        {
+                                //            window.Close();
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        window.Close();
+                                //    }
+                                //}
                             }
                             else
                             {
@@ -112,19 +128,32 @@ namespace Aukce.ViewModels
             AddAuction = new RelayCommand(
                 () =>
                 {
-                    if (Db != null)
+                    if (Db != null && LoggedUser != null)
                     {
-                        Auction newAuction = new Auction
+                        Db.Auctions.Add(new Auction
                         {
                             Title = NewAuction.Title,
                             Description = NewAuction.Description,
                             Price = NewAuction.Price,
                             EndDate = NewAuction.EndDate,
                             AuthorId = LoggedUser.Id,
-                            Author = LoggedUser
-                        };
+                            Author = LoggedUser,
+                            LastBuyerId = LoggedUser.Id
+                        });
+                        Db.SaveChanges();
+                    }
+                }
+                );
+            BidCommand = new RelayCommand(
+                () =>
+                {
+                    if (Db != null)
+                    {
+                        Auction a = Db.Auctions.Where(a => a.Id == SelectedAuction.Id).FirstOrDefault();
 
-                        Db.Auctions.Add(newAuction);
+                        a.Price += Bid;
+                        a.LastBuyerId = LoggedUser.Id;
+
                         Db.SaveChanges();
                     }
                 }
@@ -159,6 +188,11 @@ namespace Aukce.ViewModels
         {
             get { return _newAuction; }
             set { _newAuction = value; NotifyPropertyChanged(); }
+        }
+        public int Bid
+        {
+            get { return _bid; }
+            set { _bid = value; NotifyPropertyChanged(); }
         }
 
 
