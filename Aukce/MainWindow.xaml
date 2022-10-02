@@ -48,7 +48,7 @@
                         <Label>End Date</Label>
                         <TextBox Text="{Binding SelectedAuction.EndDate}" IsReadOnly="True"/>
                         <Label>Last Buyer</Label>
-                        <TextBox Text="{Binding SelectedAuction.LastBuyerId}" IsReadOnly="True"/>
+                        <TextBox Text="{Binding SelectedAuction.LastBuyer.Username}" IsReadOnly="True"/>
 
                         <Label Margin="0 20 0 0">Bid</Label>
                         <TextBox Text="{Binding Bid}" />

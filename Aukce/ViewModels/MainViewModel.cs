@@ -52,6 +52,8 @@ namespace Aukce.ViewModels
                         {
                             var author = Db.Users.Where(u => u.Id == a.AuthorId).FirstOrDefault();
                             a.Author = author;
+                            var lastBuyer = Db.Users.Where(u => u.Id == a.LastBuyerId).FirstOrDefault();
+                            a.LastBuyer = lastBuyer;
                         }
                     }
                     else if (Db != null)
@@ -62,6 +64,8 @@ namespace Aukce.ViewModels
                         {
                             var author = Db.Users.Where(u => u.Id == a.AuthorId).FirstOrDefault();
                             a.Author = author;
+                            var lastBuyer = Db.Users.Where(u => u.Id == a.LastBuyerId).FirstOrDefault();
+                            a.LastBuyer = lastBuyer;
                         }
                     }
                 }
@@ -151,6 +155,7 @@ namespace Aukce.ViewModels
                             LastBuyerId = LoggedUser.Id
                         });
                         Db.SaveChanges();
+                        ReloadCommand.Execute(null);
                     }
                 }
                 );
@@ -165,6 +170,7 @@ namespace Aukce.ViewModels
                         a.LastBuyerId = LoggedUser.Id;
 
                         Db.SaveChanges();
+                        ReloadCommand.Execute(null);
                     }
                     else
                     {
@@ -179,6 +185,7 @@ namespace Aukce.ViewModels
                     {
                         Db.Auctions.Remove(SelectedAuction);
                         Db.SaveChanges();
+                        ReloadCommand.Execute(null);
                     }
                     else
                     {

@@ -26,6 +26,7 @@ namespace Aukce.Data
         {
             builder.Entity<User>().HasMany(u => u.Auctions);
             builder.Entity<Auction>().HasOne(a => a.Author);
+            builder.Entity<Auction>().HasOne(a => a.LastBuyer);
         }
     }
 }

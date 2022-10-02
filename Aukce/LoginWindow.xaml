@@ -16,7 +16,7 @@
             <Label Opacity=".6">Email</Label>
             <TextBox Text="{Binding LoginUser.Email}"/>
             <Label Opacity=".6">Password</Label>
-            <TextBox Text="{Binding LoginUser.Password}" Margin="0 0 0 20"/>
+            <PasswordBox vm:PasswordBoxAssistant.BindPassword="True" vm:PasswordBoxAssistant.BoundPassword="{Binding LoginUser.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button Command="{Binding LoginCommand}" Click="Login">Login</Button>
         </StackPanel>
     </Grid>

@@ -18,8 +18,10 @@ namespace Aukce.Model
         [Required]
         public int Price { get; set; }
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; } = DateTime.Now;
         public Guid LastBuyerId { get; set; }
+        [ForeignKey("LastBuyerId")]
+        public User LastBuyer { get; set; }
         public Guid AuthorId { get; set; }
         [ForeignKey("AuthorId")]
         public User Author { get; set; }
