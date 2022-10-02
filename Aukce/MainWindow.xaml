@@ -20,6 +20,7 @@
                     <MenuItem Header="_New Auction" Click="AddAuction" />
                     <MenuItem Header="_Delete" Click="Delete" />
                 </MenuItem>
+                <TextBlock Margin="650 0 0 0" Text="{Binding LoggedUser.Username}" />
             </Menu>
             <Grid>
                 <Grid.ColumnDefinitions>

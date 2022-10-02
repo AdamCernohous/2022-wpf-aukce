@@ -25,5 +25,10 @@ namespace Aukce
         {
             InitializeComponent();
         }
+
+        private void Register(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
